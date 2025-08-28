@@ -2,8 +2,6 @@ import { View, Text, Animated } from 'react-native';
 import React, { useEffect, useRef } from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons, MaterialIcons, FontAwesome, Feather } from '@expo/vector-icons';
-
-// Reusable Tab Icon with animation
 const TabIcon = ({ focused, iconName, label, iconType = 'Ionicons' }: any) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
@@ -60,9 +58,10 @@ const _layout = () => {
           display:'flex',
           paddingTop:20,
           height: 65,
-          backgroundColor: '#fff',
+          
+          backgroundColor: 'primary',
           borderTopWidth: 1,
-          borderTopColor: '#e5e7eb',
+          borderTopColor: 'primary-100',
           elevation: 4,
           shadowColor: '#000',
           shadowOpacity: 0.1,
