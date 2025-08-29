@@ -8,7 +8,7 @@ interface Props{
 }
 const Searchbar = ({placeholder,onPress}:Props) => {
   return (
-    <View className='flex-row items-center bg-dark-200 mx-4 p-3 rounded-full px-5 py-2 mt-2'>
+    <View className='flex-row items-center bg-dark-200 mx-4 p-3 rounded-full px-5 py-2 mt-3'>
       <MaterialIcons name="search" size={26} color={"white"}/>
       <TextInput 
       onPress={onPress}

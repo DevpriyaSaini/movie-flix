@@ -59,9 +59,9 @@ const _layout = () => {
           paddingTop:20,
           height: 65,
           
-          backgroundColor: 'primary',
+          backgroundColor: 'black',
           borderTopWidth: 1,
-          borderTopColor: 'primary-100',
+          borderTopColor: 'black',
           elevation: 4,
           shadowColor: '#000',
           shadowOpacity: 0.1,
