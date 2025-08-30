@@ -49,6 +49,7 @@ if (!movies) return <Text>No movies found</Text>;
                 router.push("/search");
               }}
               placeholder="Search for a movie"
+              
             />
 
             <Text className="text-lg font-bold text-white font-bold ml-5 mt-2 mb-3">
