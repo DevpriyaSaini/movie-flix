@@ -5,7 +5,7 @@ import { Link } from "expo-router";
 
 const Moviecart = ({ id, poster_path, title, vote_average, release_date }: Movie) => {
   return (
-    <Link href={`/movie/${id}`} asChild>
+    <Link href={`/movies/${id}`} asChild>
       <TouchableOpacity
         className="bg-white rounded-lg ml-1 mr-1 mb-3 shadow-md overflow-hidden"
         style={{ width: 160 }}
@@ -16,7 +16,7 @@ const Moviecart = ({ id, poster_path, title, vote_average, release_date }: Movie
               ? `https://image.tmdb.org/t/p/w500${poster_path}`
               : `https://via.placeholder.com/500x750?text=No+Image`,
           }}
-          style={{ width: 160, height: 225 }}
+          style={{ width: 160, height: 200 }}
           resizeMode="cover"
         />
 

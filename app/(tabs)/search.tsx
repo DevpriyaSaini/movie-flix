@@ -4,13 +4,11 @@ import { Image } from 'expo-image';
 import Moviecart from '../components/Moviecart';
 import useFetch from '@/services/usefetch';
 import { fetchMovies } from '@/services/api';
-import { useRouter } from 'expo-router';
-import { MaterialIcons } from '@expo/vector-icons';
-import { SearchBar } from 'react-native-screens';
 import Searchbar from '../components/Searchbar';
+import axios from 'axios';
 
 
-
+const url="http://localhost:8000"
 const Search = () => {
   const [Query, setQuery] = React.useState('');  
 
@@ -26,6 +24,32 @@ const Search = () => {
     }), false
   );
 
+ 
+  
+ 
+  async function topmovie(movies: any) {
+  try {
+    const result = await axios.post(`${url}/movies`, {
+       searchterm:movies.original_title,
+      movie_id: movies.id,
+      poster_url: movies.poster_path,
+       vote_average: movies.vote_average,
+      release_date: movies.release_date
+
+    });
+    console.log("Saved:", result.data);
+    return result.data;
+  } catch (err) {
+    console.error("Error saving movie:", err);
+  }
+}
+
+ useEffect(() => {
+  console.log("use")
+  if (movies && movies.length > 0) {
+    topmovie(movies[0]);
+  }
+}, [movies]);
   useEffect(() => {
     const timeoutId =setTimeout( async () => {
       if (Query.trim()) {
@@ -38,9 +62,10 @@ const Search = () => {
     
   }, [Query]);
 
+
   return (
     <View className="flex-1 bg-primary">
-      <Text className="text-white text-xl p-4">Search</Text>
+
 
       <Image
         source={{
@@ -48,7 +73,13 @@ const Search = () => {
         }}
         className="flex-1 absolute w-full z-0"
       />
-
+            <Image
+          source={{
+            uri: "https://imgs.search.brave.com/2YMVNmZsOSn3cRjBSOPC6aLtAAM73wegfawU-rN11s4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEyLzk5LzkwLzM1/LzM2MF9GXzEyOTk5/MDM1NTJfY2ZnaHls/Sm5rNkdjMWkyOXl0/alFRc05TT2p6eVB0/VTkuanBn",
+          }}
+          className="mx-auto  rounded-lg "
+          style={{ width: "90%", height: 50 ,marginTop:40, marginLeft:20 }}
+        />
       {movieloading && (
         <ActivityIndicator size="large" color="blue" className="mt-50" />
       )}
@@ -68,22 +99,22 @@ const Search = () => {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <Moviecart {...item} />}
           className="px-5"
-          numColumns={3}
+          numColumns={2}
           columnWrapperStyle={{ justifyContent: "center", gap: 16, marginVertical: 10 }}
           contentContainerStyle={{ paddingBottom: 100, paddingTop: 10 }}
           ListHeaderComponent={
             <>
             
-              <View className="my-5 text-white">
+              <View className="my-2 text-white">
                 <Searchbar
                   placeholder="Search movie..."
                   value={Query}
                   onchangeText={(text: string) => setQuery(text)}
                 />
               </View>
-              <Text className="text-white ml-5 mb-5">Result for : {Query}</Text>
+              <Text className="text-white ml-5 mb-5 font-bold mt-3">Result for : {Query}</Text>
                {!movies && (
-        <Text className='text-white ml-20'>
+        <Text className='text-white ml-[100px] mt-10'>
           No movie fonud 
         </Text>
       )}
