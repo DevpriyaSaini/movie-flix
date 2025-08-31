@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet, Alert, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Alert,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
+import Moviecart from "../components/Moviecart"; // Ensure path is correct
+import { Image } from "expo-image";
 
 interface SavedMovie {
   id: number;
@@ -15,41 +24,32 @@ const Saved = () => {
   const [saved, setSaved] = useState<SavedMovie[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Fixed: Fetch from AsyncStorage with proper error handling
+  // Fetch from AsyncStorage
   async function fetchoffline() {
     try {
       setLoading(true);
       const value = await AsyncStorage.getItem("@MySuperStore:key");
-      console.log("Fetching saved movies...");
 
       if (value !== null) {
         try {
           const parsed = JSON.parse(value);
-          console.log("Parsed saved data:", parsed);
-
           if (Array.isArray(parsed)) {
             setSaved(parsed);
-          } else if (typeof parsed === 'object' && parsed !== null) {
-            // Handle case where stored data is a single object
+          } else if (typeof parsed === "object" && parsed !== null) {
             setSaved([parsed]);
           } else {
-            console.log("Unexpected data format");
             setSaved([]);
           }
         } catch (parseError) {
           console.log("JSON parse error:", parseError);
-          // If JSON is invalid, clear the corrupted data
           await AsyncStorage.removeItem("@MySuperStore:key");
           setSaved([]);
-          Alert.alert("Error", "Corrupted data found and cleared");
         }
       } else {
-        console.log("No saved movies found in storage.");
         setSaved([]);
       }
     } catch (error) {
       console.log("AsyncStorage error:", error);
-      Alert.alert("Error", "Failed to load saved movies");
     } finally {
       setLoading(false);
     }
@@ -63,20 +63,21 @@ const Saved = () => {
       Alert.alert("Success", "All saved movies cleared");
     } catch (error) {
       console.log("Error clearing data:", error);
-      Alert.alert("Error", "Failed to clear saved movies");
     }
   };
 
-  // Remove a single movie
+  // Remove single movie
   const removeMovie = async (movieId: number) => {
     try {
-      const updatedSaved = saved.filter(movie => movie.id !== movieId);
+      const updatedSaved = saved.filter((movie) => movie.id !== movieId);
       setSaved(updatedSaved);
-      await AsyncStorage.setItem("@MySuperStore:key", JSON.stringify(updatedSaved));
-      Alert.alert("Success", "Movie removed from saved");
+      await AsyncStorage.setItem(
+        "@MySuperStore:key",
+        JSON.stringify(updatedSaved)
+      );
+      Alert.alert("Removed", "Movie removed from saved");
     } catch (error) {
       console.log("Error removing movie:", error);
-      Alert.alert("Error", "Failed to remove movie");
     }
   };
 
@@ -86,125 +87,78 @@ const Saved = () => {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.loadingText}>Loading saved movies...</Text>
+      <View className="flex-1 bg-[#121212] justify-center items-center">
+        <ActivityIndicator size="large" color="#fff" />
+        <Text className="text-white text-lg mt-2">
+          Loading saved movies...
+        </Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Saved Movies</Text>
+
+    
+    <View className="flex-1 bg-[#121212] p-4">
+      <View>
+
+         <Image
+                  source={{
+                    uri: "https://imgs.search.brave.com/2YMVNmZsOSn3cRjBSOPC6aLtAAM73wegfawU-rN11s4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEyLzk5LzkwLzM1/LzM2MF9GXzEyOTk5/MDM1NTJfY2ZnaHls/Sm5rNkdjMWkyOXl0/alFRc05TT2p6eVB0/VTkuanBn",
+                  }}
+                  className="mx-auto my-5 rounded-lg"
+                  style={{ width: "90%", height: 60, marginTop: 40, marginLeft: 20 }}
+                />
+      </View>
+      {/* Header */}
+      <View className="flex-row justify-between items-center mt-4 mb-5">
+        <Text className="text-white text-2xl ml-2 mt-2 font-bold">Saved Movies</Text>
         {saved.length > 0 && (
-          <TouchableOpacity onPress={clearAllSaved} style={styles.clearButton}>
+          <TouchableOpacity onPress={clearAllSaved} className="p-2">
             <Ionicons name="trash-outline" size={24} color="#ff4444" />
           </TouchableOpacity>
         )}
       </View>
+      
 
+      {/* Empty state */}
       {saved.length === 0 ? (
-        <View style={styles.emptyContainer}>
+        <View className="flex-1 justify-center items-center">
           <Ionicons name="film-outline" size={64} color="#555" />
-          <Text style={styles.emptyText}>No saved movies yet</Text>
-          <Text style={styles.emptySubtext}>Movies you save will appear here</Text>
+          <Text className="text-white text-xl mt-4 mb-2">No saved movies yet</Text>
+          <Text className="text-gray-400 text-base">
+            Movies you save will appear here
+          </Text>
         </View>
       ) : (
         <FlatList
           data={saved}
           keyExtractor={(item) => item.id.toString()}
+          numColumns={2}
+          contentContainerStyle={{ paddingBottom: 20 }}
           renderItem={({ item }) => (
-            <View style={styles.movieItem}>
-              <View style={styles.movieInfo}>
-                <Text style={styles.movieTitle}>{item.title}</Text>
-                <Text style={styles.movieDetails}>
-                  {item.release_date} • Rating: {item.vote_average}/10
-                </Text>
-              </View>
-              <TouchableOpacity 
+            <View className="flex-1 ">
+              {/* Movie card */}
+              <Moviecart
+                id={item.id}
+                title={item.title}
+                poster_path={item.poster_path}
+                vote_average={item.vote_average}
+                release_date={item.release_date}
+              />
+              {/* Remove button */}
+              <TouchableOpacity
                 onPress={() => removeMovie(item.id)}
-                style={styles.removeButton}
+                className="absolute left-[135px] top-2"
               >
                 <Ionicons name="close-circle" size={24} color="#ff4444" />
               </TouchableOpacity>
             </View>
           )}
-          contentContainerStyle={styles.listContent}
         />
       )}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#121212",
-    padding: 16,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  title: {
-    color: "white",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  clearButton: {
-    padding: 8,
-  },
-  loadingText: {
-    color: "white",
-    fontSize: 18,
-    textAlign: "center",
-    marginTop: 40,
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  emptyText: {
-    color: "white",
-    fontSize: 20,
-    marginTop: 16,
-    marginBottom: 8,
-  },
-  emptySubtext: {
-    color: "#888",
-    fontSize: 16,
-  },
-  listContent: {
-    paddingBottom: 20,
-  },
-  movieItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#1e1e1e",
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 12,
-  },
-  movieInfo: {
-    flex: 1,
-  },
-  movieTitle: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 4,
-  },
-  movieDetails: {
-    color: "#888",
-    fontSize: 14,
-  },
-  removeButton: {
-    padding: 4,
-  },
-});
 
 export default Saved;

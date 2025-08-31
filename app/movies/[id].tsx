@@ -1,8 +1,8 @@
-import { View, Text, ScrollView, Button } from "react-native";
+import { View, Text, ScrollView, Button, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
-import { Image } from "expo-image"; // ✅ expo-image
-import AsyncStorage from "@react-native-async-storage/async-storage"; // ✅ correct import
+import { Image } from "expo-image";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Details = () => {
   const { id } = useLocalSearchParams();
@@ -27,13 +27,35 @@ const Details = () => {
     }
   }, [id]);
 
-  // ✅ Store something in AsyncStorage
-  const storeData = async () => {
+  // ✅ Store movie in AsyncStorage
+  const addMovieToStorage = async () => {
+    if (!movie) return;
+    
     try {
-      await AsyncStorage.setItem("@MySuperStore:key", JSON.stringify(movie));
-      alert("Saved to storage ✅");
+      // Get existing movies
+      const existingData = await AsyncStorage.getItem("@MySuperStore:key");
+      let movies = [];
+      
+      if (existingData !== null) {
+        movies = JSON.parse(existingData);
+        // Ensure we always have an array
+        if (!Array.isArray(movies)) {
+          movies = [movies];
+        }
+      }
+      
+      // Check if movie already exists
+      const exists = movies.some((m: any) => m.id === movie.id);
+      if (!exists) {
+        movies.push(movie);
+        await AsyncStorage.setItem("@MySuperStore:key", JSON.stringify(movies));
+        Alert.alert("Success", "Movie saved!");
+      } else {
+        Alert.alert("Info", "Movie already saved");
+      }
     } catch (error) {
       console.log("Error saving data:", error);
+      Alert.alert("Error", "Failed to save movie");
     }
   };
 
@@ -56,7 +78,7 @@ const Details = () => {
               : `https://via.placeholder.com/500x750?text=No+Image`,
           }}
           style={{ width: 300, height: 450, marginTop: 20, borderRadius: 12 }}
-          contentFit="cover" // expo-image ✅
+          contentFit="cover"
         />
 
         {/* Info */}
@@ -71,7 +93,7 @@ const Details = () => {
 
         {/* Button */}
         <View style={{ marginTop: 20 }}>
-          <Button title="Save to Storage" onPress={storeData} />
+          <Button title="Save to Storage" onPress={addMovieToStorage} />
         </View>
       </View>
     </ScrollView>
