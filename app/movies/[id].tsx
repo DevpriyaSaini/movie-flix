@@ -1,10 +1,12 @@
-import { View, Text, ScrollView, Button, Alert } from "react-native";
+import { View, Text, ScrollView, Button, Alert, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Image } from "expo-image";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons } from "@expo/vector-icons";
 
 const Details = () => {
+  const router = useRouter();
   const { id } = useLocalSearchParams();
   const [movie, setMovie] = useState<any>(null);
 
@@ -68,7 +70,13 @@ const Details = () => {
   }
 
   return (
-    <ScrollView className="bg-black">
+    <View className="flex-1 bg-black">
+    <View className="mt-7 ml-5 ">
+       <TouchableOpacity onPress={()=>router.push("/")} className="p-2">
+                  <Ionicons name="arrow-back" size={24} color="white" />
+                </TouchableOpacity>
+    </View>
+    <ScrollView >
       <View className="flex-1 p-4 items-center">
         {/* Poster */}
         <Image
@@ -97,6 +105,7 @@ const Details = () => {
         </View>
       </View>
     </ScrollView>
+    </View>
   );
 };
 
