@@ -2,6 +2,7 @@ const express=require('express');
 const cors=require('cors');
 const mongoose=require('mongoose');
 const movierouter=require("./route/movie.js")
+const userrouter=require("./route/user.js")
 
 const app=express();
 app.use(express.json());
@@ -10,6 +11,7 @@ const port=8000;
 app.use(cors());
 
 app.use("/",movierouter);
+app.use("/user",userrouter);
   
 
 mongoose.connect("mongodb+srv://devpriyasaini:Anilsaini70177@cluster01.kzupp.mongodb.net/Cluster01")
