@@ -75,7 +75,7 @@ export default function Index() {
             uri: "https://imgs.search.brave.com/2YMVNmZsOSn3cRjBSOPC6aLtAAM73wegfawU-rN11s4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEyLzk5LzkwLzM1/LzM2MF9GXzEyOTk5/MDM1NTJfY2ZnaHls/Sm5rNkdjMWkyOXl0/alFRc05TT2p6eVB0/VTkuanBn",
           }}
           className="mx-auto my-5 rounded-lg"
-          style={{ width: "90%", height: 50, marginTop: 40, marginLeft: 20 }}
+          style={{ width: 250, height: 50, marginTop: 40, marginLeft: 30 }}
         />
 
         <View>
@@ -106,7 +106,7 @@ export default function Index() {
   horizontal
   showsHorizontalScrollIndicator={false}
   className="px-5 mt-3"
-  contentContainerStyle={{ paddingRight: 20 }}
+  contentContainerStyle={{ paddingRight: 20}}
   ItemSeparatorComponent={() => <View className="w-4" />}
 />
           </View>
@@ -121,12 +121,9 @@ export default function Index() {
             renderItem={({ item }) => <Moviecart {...item} />}
             keyExtractor={(item) => String(item.id)}
             numColumns={3}
-            columnWrapperStyle={{
-              justifyContent: "flex-start",
-              gap: 20,
-              paddingRight: 5,
-              marginBottom: 10,
-            }}
+               numColumns={2}
+          columnWrapperStyle={{ justifyContent: "center", gap:25, marginVertical: 10 }}
+          contentContainerStyle={{ paddingBottom: 100, paddingTop: 10 }}
             className="mt-2 pb-32"
             scrollEnabled={false}
           />

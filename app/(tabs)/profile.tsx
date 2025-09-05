@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Link, useRouter } from "expo-router";
+import { Image } from "expo-image";
 
 const url = "http://localhost:8000";
 
@@ -36,7 +37,19 @@ const Profile = () => {
   }
 
   return (
-    <View className="flex-1 justify-center items-center px-6 bg-black">
+    <View className="  h-full  bg-black">
+
+    <Image
+                source={{
+                  uri: "https://imgs.search.brave.com/2YMVNmZsOSn3cRjBSOPC6aLtAAM73wegfawU-rN11s4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEyLzk5LzkwLzM1/LzM2MF9GXzEyOTk5/MDM1NTJfY2ZnaHls/Sm5rNkdjMWkyOXl0/alFRc05TT2p6eVB0/VTkuanBn",
+                }}
+                className="mx-auto my-5 rounded-lg"
+                style={{ width: 250, height: 80, marginTop: 20, marginLeft: 40 }}
+              />
+    <View className="flex-1 justify-center items-center px-6 -mt-10 bg-black">
+      
+      
+      
       {/* Glass-like card */}
       <View className="w-full max-w-md p-6 rounded-2xl bg-white/90 dark:bg-black/30 backdrop-blur-md shadow-lg">
         <Text className="text-3xl font-bold text-center mb-6 text-purple-700 dark:text-purple-400">
@@ -88,6 +101,7 @@ const Profile = () => {
           </TouchableOpacity>
         </Link>
       </View>
+    </View>
     </View>
   );
 };

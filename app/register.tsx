@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import { Tabs, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { Image } from "expo-image";
 
 const url = "http://localhost:8000";
 
@@ -47,6 +48,20 @@ const Profile = () => {
   }
 
   return (
+    <View className="  h-full  bg-black">
+      <View className="absolute top-10 left-4">
+        <TouchableOpacity onPress={() => router.push("/")} className="p-2">
+          <Ionicons name="arrow-back" size={28} color="white" />
+        </TouchableOpacity>
+      </View>
+    
+        <Image
+                    source={{
+                      uri: "https://imgs.search.brave.com/2YMVNmZsOSn3cRjBSOPC6aLtAAM73wegfawU-rN11s4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEyLzk5LzkwLzM1/LzM2MF9GXzEyOTk5/MDM1NTJfY2ZnaHls/Sm5rNkdjMWkyOXl0/alFRc05TT2p6eVB0/VTkuanBn",
+                    }}
+                    className="mx-auto my-5 rounded-lg"
+                    style={{ width: 250, height: 80, marginTop: 20, marginLeft: 50 }}
+                  />
     <View className="flex-1 justify-center items-center px-6 bg-black ">
       {/* Header hidden */}
       <Tabs.Screen
@@ -57,11 +72,7 @@ const Profile = () => {
       />
 
       {/* Back button */}
-      <View className="absolute top-10 left-4">
-        <TouchableOpacity onPress={() => router.push("/")} className="p-2">
-          <Ionicons name="arrow-back" size={28} color="white" />
-        </TouchableOpacity>
-      </View>
+      
 
       {/* Glass-like card */}
       <View className="w-full max-w-md p-6 rounded-2xl bg-white/90 dark:bg-black/30 backdrop-blur-md shadow-lg">
@@ -129,6 +140,7 @@ const Profile = () => {
           </Text>
         ) : null}
       </View>
+    </View>
     </View>
   );
 };
