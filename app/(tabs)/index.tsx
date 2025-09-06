@@ -9,7 +9,7 @@ import Moviecart from "../components/Moviecart";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const url = "http://localhost:8000";
+const url = "https://movie-flix-bd25.onrender.com";
 
 export default function Index() {
   const router = useRouter();
@@ -75,7 +75,7 @@ export default function Index() {
             uri: "https://imgs.search.brave.com/2YMVNmZsOSn3cRjBSOPC6aLtAAM73wegfawU-rN11s4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEyLzk5LzkwLzM1/LzM2MF9GXzEyOTk5/MDM1NTJfY2ZnaHls/Sm5rNkdjMWkyOXl0/alFRc05TT2p6eVB0/VTkuanBn",
           }}
           className="mx-auto my-5 rounded-lg"
-          style={{ width: 250, height: 50, marginTop: 40, marginLeft: 30 }}
+          style={{ width: 250, height: 50, marginTop: 40, marginLeft: 40 }}
         />
 
         <View>
@@ -120,7 +120,6 @@ export default function Index() {
             data={movies}
             renderItem={({ item }) => <Moviecart {...item} />}
             keyExtractor={(item) => String(item.id)}
-            numColumns={3}
                numColumns={2}
           columnWrapperStyle={{ justifyContent: "center", gap:25, marginVertical: 10 }}
           contentContainerStyle={{ paddingBottom: 100, paddingTop: 10 }}

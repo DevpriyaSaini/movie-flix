@@ -8,7 +8,7 @@ import Searchbar from '../components/Searchbar';
 import axios from 'axios';
 
 
-const url="http://localhost:8000"
+const url="https://movie-flix-bd25.onrender.com"
 const Search = () => {
   const [Query, setQuery] = React.useState('');  
 

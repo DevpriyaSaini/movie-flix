@@ -11,7 +11,7 @@ import { Tabs, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 
-const url = "http://localhost:8000";
+const url = "https://movie-flix-bd25.onrender.com";
 
 const Profile = () => {
   const router = useRouter();

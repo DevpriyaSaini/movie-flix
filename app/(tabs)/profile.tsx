@@ -4,8 +4,9 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Link, useRouter } from "expo-router";
 import { Image } from "expo-image";
+import { Ionicons } from "@expo/vector-icons";
 
-const url = "http://localhost:8000";
+const url = "https://movie-flix-bd25.onrender.com";
 
 const Profile = () => {
   const router = useRouter();
@@ -39,13 +40,19 @@ const Profile = () => {
   return (
     <View className="  h-full  bg-black">
 
-    <Image
-                source={{
-                  uri: "https://imgs.search.brave.com/2YMVNmZsOSn3cRjBSOPC6aLtAAM73wegfawU-rN11s4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEyLzk5LzkwLzM1/LzM2MF9GXzEyOTk5/MDM1NTJfY2ZnaHls/Sm5rNkdjMWkyOXl0/alFRc05TT2p6eVB0/VTkuanBn",
-                }}
-                className="mx-auto my-5 rounded-lg"
-                style={{ width: 250, height: 80, marginTop: 20, marginLeft: 40 }}
-              />
+   <View className="absolute top-10 left-4">
+        <TouchableOpacity onPress={() => router.push("/")} className="p-2">
+          <Ionicons name="arrow-back" size={28} color="white" />
+        </TouchableOpacity>
+      </View>
+    
+        <Image
+                    source={{
+                      uri: "https://imgs.search.brave.com/2YMVNmZsOSn3cRjBSOPC6aLtAAM73wegfawU-rN11s4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzEyLzk5LzkwLzM1/LzM2MF9GXzEyOTk5/MDM1NTJfY2ZnaHls/Sm5rNkdjMWkyOXl0/alFRc05TT2p6eVB0/VTkuanBn",
+                    }}
+                    className="mx-auto my-5 rounded-lg"
+                    style={{ width: 250, height: 120, marginTop: 20, marginLeft: 50 }}
+                  />
     <View className="flex-1 justify-center items-center px-6 -mt-10 bg-black">
       
       
